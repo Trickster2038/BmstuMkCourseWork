@@ -13,7 +13,8 @@ int main(void){
 	//test1_func();
 	DDRA=0xF0;
 	PORTA=0x0F;
-	DDRB=0xFF;
+	DDRC=0x00;
+	PORTC=0b10011001;
 	uart_init();
 	uart_send_byte('h');
 	uart_send_byte('3');

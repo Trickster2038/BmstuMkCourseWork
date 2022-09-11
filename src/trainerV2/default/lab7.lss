@@ -3,25 +3,25 @@ lab7.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000010a  00000000  00000000  00000094  2**1
+  0 .text         0000010c  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000008  00800060  0000010a  0000019e  2**0
+  1 .data         00000008  00800060  0000010c  000001a0  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000002  00800068  00800068  000001a6  2**0
+  2 .bss          00000002  00800068  00800068  000001a8  2**0
                   ALLOC
-  3 .debug_aranges 00000080  00000000  00000000  000001a6  2**0
+  3 .debug_aranges 00000080  00000000  00000000  000001a8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 000000ca  00000000  00000000  00000226  2**0
+  4 .debug_pubnames 000000ca  00000000  00000000  00000228  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000275  00000000  00000000  000002f0  2**0
+  5 .debug_info   00000275  00000000  00000000  000002f2  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000165  00000000  00000000  00000565  2**0
+  6 .debug_abbrev 00000165  00000000  00000000  00000567  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000251  00000000  00000000  000006ca  2**0
+  7 .debug_line   00000259  00000000  00000000  000006cc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000a0  00000000  00000000  0000091c  2**2
+  8 .debug_frame  000000a0  00000000  00000000  00000928  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000108  00000000  00000000  000009bc  2**0
+  9 .debug_str    00000108  00000000  00000000  000009c8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -57,7 +57,7 @@ Disassembly of section .text:
   2e:	10 e0       	ldi	r17, 0x00	; 0
   30:	a0 e6       	ldi	r26, 0x60	; 96
   32:	b0 e0       	ldi	r27, 0x00	; 0
-  34:	ea e0       	ldi	r30, 0x0A	; 10
+  34:	ec e0       	ldi	r30, 0x0C	; 12
   36:	f1 e0       	ldi	r31, 0x01	; 1
   38:	02 c0       	rjmp	.+4      	; 0x3e <.do_copy_data_start>
 
@@ -84,7 +84,7 @@ Disassembly of section .text:
   50:	b1 07       	cpc	r27, r17
   52:	e1 f7       	brne	.-8      	; 0x4c <.do_clear_bss_loop>
   54:	06 d0       	rcall	.+12     	; 0x62 <main>
-  56:	57 c0       	rjmp	.+174    	; 0x106 <_exit>
+  56:	58 c0       	rjmp	.+176    	; 0x108 <_exit>
 
 00000058 <__bad_interrupt>:
   58:	d3 cf       	rjmp	.-90     	; 0x0 <__vectors>
@@ -114,158 +114,160 @@ int main(void){
 	PORTA=0x0F;
   66:	8f e0       	ldi	r24, 0x0F	; 15
   68:	8b bb       	out	0x1b, r24	; 27
-	DDRB=0xFF;
-  6a:	8f ef       	ldi	r24, 0xFF	; 255
-  6c:	87 bb       	out	0x17, r24	; 23
+	DDRC=0x00;
+  6a:	14 ba       	out	0x14, r1	; 20
+	PORTC=0b10011001;
+  6c:	89 e9       	ldi	r24, 0x99	; 153
+  6e:	85 bb       	out	0x15, r24	; 21
 	uart_init();
-  6e:	3e d0       	rcall	.+124    	; 0xec <uart_init>
+  70:	3e d0       	rcall	.+124    	; 0xee <uart_init>
 	uart_send_byte('h');
-  70:	88 e6       	ldi	r24, 0x68	; 104
-  72:	45 d0       	rcall	.+138    	; 0xfe <uart_send_byte>
+  72:	88 e6       	ldi	r24, 0x68	; 104
+  74:	45 d0       	rcall	.+138    	; 0x100 <uart_send_byte>
 	uart_send_byte('3');
-  74:	83 e3       	ldi	r24, 0x33	; 51
-  76:	43 d0       	rcall	.+134    	; 0xfe <uart_send_byte>
+  76:	83 e3       	ldi	r24, 0x33	; 51
+  78:	43 d0       	rcall	.+134    	; 0x100 <uart_send_byte>
 
 	while(1) {
 		//uart_send_byte1('e');
 		PORTB=keyboard_get_state();
-  78:	08 d0       	rcall	.+16     	; 0x8a <keyboard_get_state>
-  7a:	88 bb       	out	0x18, r24	; 24
+  7a:	08 d0       	rcall	.+16     	; 0x8c <keyboard_get_state>
+  7c:	88 bb       	out	0x18, r24	; 24
  		//asm("sleep"); // ??????? ? ????? Idle
  		asm("nop");
-  7c:	00 00       	nop
-  7e:	fc cf       	rjmp	.-8      	; 0x78 <main+0x16>
+  7e:	00 00       	nop
+  80:	fc cf       	rjmp	.-8      	; 0x7a <main+0x18>
 
-00000080 <test1_func>:
+00000082 <test1_func>:
 #include <avr/io.h>
 
 int test1_func(void){
 	DDRA=0xFF; // PB7,PB6 ??? ?????? ?? LED7,LED6 PB0- ??? ?????
-  80:	8f ef       	ldi	r24, 0xFF	; 255
-  82:	8a bb       	out	0x1a, r24	; 26
+  82:	8f ef       	ldi	r24, 0xFF	; 255
+  84:	8a bb       	out	0x1a, r24	; 26
 	PORTA=0b10010100; // ????????? LED7, PB0-????????????? ???????? ??????
-  84:	84 e9       	ldi	r24, 0x94	; 148
-  86:	8b bb       	out	0x1b, r24	; 27
+  86:	84 e9       	ldi	r24, 0x94	; 148
+  88:	8b bb       	out	0x1b, r24	; 27
 }
-  88:	08 95       	ret
+  8a:	08 95       	ret
 
-0000008a <keyboard_get_state>:
+0000008c <keyboard_get_state>:
 	returns (line<<4 | coluumn) 
 	values in [0;3]
 	no idea why they swap
 */
 char keyboard_get_state(void){
  	for(i=0; i<4; i++)
-  8a:	10 92 68 00 	sts	0x0068, r1
-  8e:	40 91 69 00 	lds	r20, 0x0069
-  92:	50 e0       	ldi	r21, 0x00	; 0
-  94:	23 c0       	rjmp	.+70     	; 0xdc <keyboard_get_state+0x52>
+  8c:	10 92 68 00 	sts	0x0068, r1
+  90:	40 91 69 00 	lds	r20, 0x0069
+  94:	50 e0       	ldi	r21, 0x00	; 0
+  96:	23 c0       	rjmp	.+70     	; 0xde <keyboard_get_state+0x52>
     { 
        PORTA=portState[i];
-  96:	e5 2f       	mov	r30, r21
-  98:	f0 e0       	ldi	r31, 0x00	; 0
-  9a:	e0 5a       	subi	r30, 0xA0	; 160
-  9c:	ff 4f       	sbci	r31, 0xFF	; 255
-  9e:	80 81       	ld	r24, Z
-  a0:	8b bb       	out	0x1b, r24	; 27
-  a2:	40 e0       	ldi	r20, 0x00	; 0
-  a4:	18 c0       	rjmp	.+48     	; 0xd6 <keyboard_get_state+0x4c>
+  98:	e5 2f       	mov	r30, r21
+  9a:	f0 e0       	ldi	r31, 0x00	; 0
+  9c:	e0 5a       	subi	r30, 0xA0	; 160
+  9e:	ff 4f       	sbci	r31, 0xFF	; 255
+  a0:	80 81       	ld	r24, Z
+  a2:	8b bb       	out	0x1b, r24	; 27
+  a4:	40 e0       	ldi	r20, 0x00	; 0
+  a6:	18 c0       	rjmp	.+48     	; 0xd8 <keyboard_get_state+0x4c>
        for(j=0; j<4; j++)
        { 
           if(((PINA&inputState[j])==0))
-  a6:	89 b3       	in	r24, 0x19	; 25
-  a8:	24 2f       	mov	r18, r20
-  aa:	30 e0       	ldi	r19, 0x00	; 0
-  ac:	64 2f       	mov	r22, r20
-  ae:	6f 5f       	subi	r22, 0xFF	; 255
-  b0:	f9 01       	movw	r30, r18
-  b2:	ec 59       	subi	r30, 0x9C	; 156
-  b4:	ff 4f       	sbci	r31, 0xFF	; 255
-  b6:	90 81       	ld	r25, Z
-  b8:	89 23       	and	r24, r25
-  ba:	61 f4       	brne	.+24     	; 0xd4 <keyboard_get_state+0x4a>
-  bc:	40 93 69 00 	sts	0x0069, r20
-  c0:	50 93 68 00 	sts	0x0068, r21
+  a8:	89 b3       	in	r24, 0x19	; 25
+  aa:	24 2f       	mov	r18, r20
+  ac:	30 e0       	ldi	r19, 0x00	; 0
+  ae:	64 2f       	mov	r22, r20
+  b0:	6f 5f       	subi	r22, 0xFF	; 255
+  b2:	f9 01       	movw	r30, r18
+  b4:	ec 59       	subi	r30, 0x9C	; 156
+  b6:	ff 4f       	sbci	r31, 0xFF	; 255
+  b8:	90 81       	ld	r25, Z
+  ba:	89 23       	and	r24, r25
+  bc:	61 f4       	brne	.+24     	; 0xd6 <keyboard_get_state+0x4a>
+  be:	40 93 69 00 	sts	0x0069, r20
+  c2:	50 93 68 00 	sts	0x0068, r21
           {
 		  	return (j<<4) | i;
-  c4:	84 e0       	ldi	r24, 0x04	; 4
-  c6:	22 0f       	add	r18, r18
-  c8:	33 1f       	adc	r19, r19
-  ca:	8a 95       	dec	r24
-  cc:	e1 f7       	brne	.-8      	; 0xc6 <keyboard_get_state+0x3c>
-  ce:	85 2f       	mov	r24, r21
-  d0:	82 2b       	or	r24, r18
-  d2:	08 95       	ret
-  d4:	46 2f       	mov	r20, r22
+  c6:	84 e0       	ldi	r24, 0x04	; 4
+  c8:	22 0f       	add	r18, r18
+  ca:	33 1f       	adc	r19, r19
+  cc:	8a 95       	dec	r24
+  ce:	e1 f7       	brne	.-8      	; 0xc8 <keyboard_get_state+0x3c>
+  d0:	85 2f       	mov	r24, r21
+  d2:	82 2b       	or	r24, r18
+  d4:	08 95       	ret
+  d6:	46 2f       	mov	r20, r22
 */
 char keyboard_get_state(void){
  	for(i=0; i<4; i++)
     { 
        PORTA=portState[i];
        for(j=0; j<4; j++)
-  d6:	44 30       	cpi	r20, 0x04	; 4
-  d8:	31 f7       	brne	.-52     	; 0xa6 <keyboard_get_state+0x1c>
-  da:	5f 5f       	subi	r21, 0xFF	; 255
+  d8:	44 30       	cpi	r20, 0x04	; 4
+  da:	31 f7       	brne	.-52     	; 0xa8 <keyboard_get_state+0x1c>
+  dc:	5f 5f       	subi	r21, 0xFF	; 255
 	returns (line<<4 | coluumn) 
 	values in [0;3]
 	no idea why they swap
 */
 char keyboard_get_state(void){
  	for(i=0; i<4; i++)
-  dc:	54 30       	cpi	r21, 0x04	; 4
-  de:	d8 f2       	brcs	.-74     	; 0x96 <keyboard_get_state+0xc>
-  e0:	40 93 69 00 	sts	0x0069, r20
-  e4:	50 93 68 00 	sts	0x0068, r21
-  e8:	8f ef       	ldi	r24, 0xFF	; 255
+  de:	54 30       	cpi	r21, 0x04	; 4
+  e0:	d8 f2       	brcs	.-74     	; 0x98 <keyboard_get_state+0xc>
+  e2:	40 93 69 00 	sts	0x0069, r20
+  e6:	50 93 68 00 	sts	0x0068, r21
+  ea:	8f ef       	ldi	r24, 0xFF	; 255
 		  	return (j<<4) | i;
           }
        }                          
     }
 	return 0xFF;  
 }
-  ea:	08 95       	ret
+  ec:	08 95       	ret
 
-000000ec <uart_init>:
+000000ee <uart_init>:
 #define F_CPU 4000000UL
 #define BAUD 9600
 #include <util/setbaud.h>
 
 void uart_init(void) {
     UBRRH = UBRRH_VALUE;
-  ec:	10 bc       	out	0x20, r1	; 32
+  ee:	10 bc       	out	0x20, r1	; 32
     UBRRL = UBRRL_VALUE;
-  ee:	89 e1       	ldi	r24, 0x19	; 25
-  f0:	89 b9       	out	0x09, r24	; 9
+  f0:	89 e1       	ldi	r24, 0x19	; 25
+  f2:	89 b9       	out	0x09, r24	; 9
 
 #if USE_2X
     UCSRA |= _BV(U2X);
 #else
     UCSRA &= ~(_BV(U2X));
-  f2:	59 98       	cbi	0x0b, 1	; 11
+  f4:	59 98       	cbi	0x0b, 1	; 11
 #endif
 
     UCSRC = _BV(UCSZ1) | _BV(UCSZ0); /* 8-bit data */
-  f4:	86 e0       	ldi	r24, 0x06	; 6
-  f6:	80 bd       	out	0x20, r24	; 32
+  f6:	86 e0       	ldi	r24, 0x06	; 6
+  f8:	80 bd       	out	0x20, r24	; 32
     UCSRB = _BV(RXEN) | _BV(TXEN);   /* Enable RX and TX */
-  f8:	88 e1       	ldi	r24, 0x18	; 24
-  fa:	8a b9       	out	0x0a, r24	; 10
+  fa:	88 e1       	ldi	r24, 0x18	; 24
+  fc:	8a b9       	out	0x0a, r24	; 10
 }
-  fc:	08 95       	ret
+  fe:	08 95       	ret
 
-000000fe <uart_send_byte>:
+00000100 <uart_send_byte>:
 
 void uart_send_byte(char c) {
    loop_until_bit_is_set(UCSRA, UDRE); /* Wait until data register empty. */
-  fe:	5d 9b       	sbis	0x0b, 5	; 11
- 100:	fe cf       	rjmp	.-4      	; 0xfe <uart_send_byte>
+ 100:	5d 9b       	sbis	0x0b, 5	; 11
+ 102:	fe cf       	rjmp	.-4      	; 0x100 <uart_send_byte>
    UDR = c;
- 102:	8c b9       	out	0x0c, r24	; 12
+ 104:	8c b9       	out	0x0c, r24	; 12
 }
- 104:	08 95       	ret
+ 106:	08 95       	ret
 
-00000106 <_exit>:
- 106:	f8 94       	cli
+00000108 <_exit>:
+ 108:	f8 94       	cli
 
-00000108 <__stop_program>:
- 108:	ff cf       	rjmp	.-2      	; 0x108 <__stop_program>
+0000010a <__stop_program>:
+ 10a:	ff cf       	rjmp	.-2      	; 0x10a <__stop_program>
