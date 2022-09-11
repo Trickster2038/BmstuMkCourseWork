@@ -1,6 +1,7 @@
 #include <avr/io.h>
 #include "test1.h"
 #include "keyboard.h"
+#include "uart.h"
 
 int test(void){
 	DDRB=0x00; // PB7,PB6 ??? ?????? ?? LED7,LED6 PB0- ??? ?????
@@ -13,7 +14,12 @@ int main(void){
 	DDRA=0xF0;
 	PORTA=0x0F;
 	DDRB=0xFF;
+	uart_init();
+	uart_send_byte('h');
+	uart_send_byte('3');
+
 	while(1) {
+		//uart_send_byte1('e');
 		PORTB=keyboard_get_state();
  		//asm("sleep"); // ??????? ? ????? Idle
  		asm("nop");
