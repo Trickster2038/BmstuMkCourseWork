@@ -1,5 +1,6 @@
 #include <avr/io.h>
 #include "test1.h"
+#include "keyboard.h"
 
 int test(void){
 	DDRB=0x00; // PB7,PB6 ??? ?????? ?? LED7,LED6 PB0- ??? ?????
@@ -7,10 +8,14 @@ int test(void){
 }
 
 int main(void){
-	test();
-	test1_func();
-	for (;;) {
- 		asm("sleep"); // ??????? ? ????? Idle
+	//test();
+	//test1_func();
+	DDRA=0xF0;
+	PORTA=0x0F;
+	DDRB=0xFF;
+	while(1) {
+		PORTB=keyboard_get_state();
+ 		//asm("sleep"); // ??????? ? ????? Idle
  		asm("nop");
  	}
 }

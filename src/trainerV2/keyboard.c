@@ -1,0 +1,28 @@
+#include <avr/io.h>
+
+char i=0,j=0;
+char portState[4]= {0xEF,0xDF,0xBF,0x7F};
+char inputState[4]={0x01,0x02,0x04,0x08};
+
+//void keyboard_init(void){
+//}
+
+/* 
+	returns (line<<4 | coluumn) 
+	values in [0;3]
+	no idea why they swap
+*/
+char keyboard_get_state(void){
+ 	for(i=0; i<4; i++)
+    { 
+       PORTA=portState[i];
+       for(j=0; j<4; j++)
+       { 
+          if(((PINA&inputState[j])==0))
+          {
+		  	return (j<<4) | i;
+          }
+       }                          
+    }
+	return 0xFF;  
+}
