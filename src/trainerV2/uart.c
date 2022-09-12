@@ -1,5 +1,5 @@
 #include <avr/io.h>
-#define F_CPU 4000000UL
+#define F_CPU 1000000UL
 #define BAUD 9600
 #include <util/setbaud.h>
 
