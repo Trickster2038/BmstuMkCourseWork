@@ -1,8 +1,11 @@
 #include <avr/io.h>
+#include <util/delay.h>
 #include "test1.h"
 #include "keyboard.h"
 #include "uart.h"
 #include "display.h"
+
+char hh = 0;
 
 int test(void){
 	DDRB=0x00; // PB7,PB6 ??? ?????? ?? LED7,LED6 PB0- ??? ?????
@@ -26,17 +29,28 @@ int main(void){
 	//uart_send_byte('h');
 	//uart_send_byte('3');
 	display_set_bytes(1,2,3,4);
+	leds_random_line();
 
 	while(1) {
-		display_flash_once();
+		leds_move_column();
+		leds_update();
+		_delay_ms(100);
+
+		hh++;
+		if(hh % 4 == 0){
+			leds_random_line();
+		}
+		//display_flash_once();
 		
 		//uart_send_byte1('e');
-		PORTB=keyboard_get_state();
-		PORTC=keyboard_get_state();
-		PORTC |= 0b10000000;
+
+		//PORTB=keyboard_get_state();
+		//PORTC=keyboard_get_state();
+		//PORTC |= 0b10000000;
 		
-		PORTB |= 1<<PB7;
-		PORTB &= 0x7F;
+		//PORTB |= 1<<PB7;
+		//PORTB &= 0x7F;
+
  		//asm("sleep"); // ??????? ? ????? Idle
  		//asm("nop");
  	}
