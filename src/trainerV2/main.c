@@ -32,7 +32,7 @@ void init_main(void){
 	DDRC=0xFF; // PORTC - OUTPUT
 	DDRB=0xFF; // PORTB - OUTPUT
 	DDRD=0xFF; // PORTD - OUTPUT
-	//display_init_timer0();
+	display_init_timer0();
 	uart_init();
 	sei();
 }
