@@ -14,13 +14,13 @@ void display_set_bytes(char t1, char t2,
 
 void display_flash_once(){
 	PORTB = c1;
-	_delay_us(100);
+	_delay_ms(1); // minimal delay just to init port
 	PORTB = c2;
-	_delay_us(100);
+	_delay_ms(1);
 	PORTB = c3;
-	_delay_us(100);
+	_delay_ms(1);
 	PORTB = c4;
-	_delay_us(100);
+	_delay_ms(1);
 	display_off();
 }
 
@@ -29,16 +29,8 @@ void display_off(){
 }
 
 void display_init_timer(){
-	TCCR1A=0x00; //настройка таймера
-	TCCR1B=0x05;
-	TCNT1=0x00; //здесь увеличиваются тики
-	//OCR1A=0x1E85; //записываем число в регистр сравнения
- 	OCR1A=0x0001;
-	TIMSK=0x10; //запускаем таймер
-
-	//TCCR1B |= (1<<WGM12);
-	//TIMSK |= (1<<OCIE1A);
-	//OCR1AH = 0b01111010;
-	//OCR1AL = 0b00010010;
-	//TCCR1B |= (1<<CS12);
+	TCNT1=0x00; // ticks
+	TCCR1B |= (1<<CS10); // K = 0
+	OCR1A = 16666; // compare num = (1_Mhz / 60_hz)
+	TIMSK |= (1<<OCIE1A); // launch timer	
 }
