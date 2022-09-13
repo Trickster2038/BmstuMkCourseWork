@@ -12,6 +12,10 @@ void display_set_bytes(char t1, char t2,
 	c4 = 0x80 | (0x0F & t4);
 }
 
+void display_off(){
+	PORTB &= 0x0F;
+}
+
 void display_flash_once(){
 	PORTB = c1;
 	_delay_ms(1); // minimal delay just to init port
@@ -24,13 +28,9 @@ void display_flash_once(){
 	display_off();
 }
 
-void display_off(){
-	PORTB &= 0x0F;
-}
-
 void display_init_timer(){
 	TCNT1=0x00; // ticks
 	TCCR1B |= (1<<CS10); // K = 0
-	OCR1A = F_CPU / 60; // compare num
+	OCR1A = (unsigned int) (F_CPU / 60); // compare num
 	TIMSK |= (1<<OCIE1A); // launch timer	
 }
