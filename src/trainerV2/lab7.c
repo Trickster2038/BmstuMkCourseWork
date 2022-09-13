@@ -5,6 +5,7 @@
 #include "uart.h"
 #include "display.h"
 #include <avr/interrupt.h>
+#include "buzzer.h"
 
 #define F_CPU 1000000UL
 
@@ -21,6 +22,10 @@ void init_main(void){
 	PORTA=0x0F; // resistors on buttons
 	DDRC=0xFF; // PORTC - OUTPUT
 	DDRB=0xFF; // PORTB - OUTPUT
+	DDRD=0xFF; // PORTD - OUTPUT
+	display_init_timer();
+	uart_init();
+	sei();
 }
 
 int main(void){
@@ -30,8 +35,7 @@ int main(void){
 	//uart_send_byte('3');
 	display_set_bytes(1,2,3,4);
 	leds_random_line();
-	display_init_timer();
-	sei();
+	//buzzer_beep(15);
 
 	while(1) {
 		leds_move_column();
