@@ -31,6 +31,6 @@ void display_off(){
 void display_init_timer(){
 	TCNT1=0x00; // ticks
 	TCCR1B |= (1<<CS10); // K = 0
-	OCR1A = 16666; // compare num = (1_Mhz / 60_hz)
+	OCR1A = F_CPU / 60; // compare num
 	TIMSK |= (1<<OCIE1A); // launch timer	
 }

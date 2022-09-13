@@ -474,9 +474,9 @@ void display_init_timer(){
  1fc:	8e b5       	in	r24, 0x2e	; 46
  1fe:	81 60       	ori	r24, 0x01	; 1
  200:	8e bd       	out	0x2e, r24	; 46
-	OCR1A = 16666; // compare num = (1_Mhz / 60_hz)
- 202:	8a e1       	ldi	r24, 0x1A	; 26
- 204:	91 e4       	ldi	r25, 0x41	; 65
+	OCR1A = F_CPU / 60; // compare num = (1_Mhz / 60_hz)
+ 202:	8a e6       	ldi	r24, 0x6A	; 106
+ 204:	94 e0       	ldi	r25, 0x04	; 4
  206:	9b bd       	out	0x2b, r25	; 43
  208:	8a bd       	out	0x2a, r24	; 42
 	TIMSK |= (1<<OCIE1A); // launch timer	
