@@ -4,6 +4,10 @@
 #include "keyboard.h"
 #include "uart.h"
 #include "display.h"
+//#include "MEGA8515.h"
+#include <avr/interrupt.h>
+
+#define F_CPU 1000000UL
 
 char hh = 0;
 
@@ -12,16 +16,26 @@ int test(void){
 	PORTB=0b10010101; // ????????? LED7, PB0-????????????? ???????? ??????
 }
 
+ISR (TIMER1_COMPA_vect)
+{
+  display_flash_once();
+  //display_set_bytes(1,2,3,1);
+  TCNT1=0; //обнуляем таймер
+}
+
 void init_main(void){
+	
 	DDRA=0xF0;
 	PORTA=0x0F;
 	DDRC=0xFF;
 	DDRB=0xFF;
 	//PORTB=0xF3;
+
 }
 
 int main(void){
 	init_main();
+	PORTB=0x67;
 	//test();
 	//test1_func();
 	//PORTC=0b10011001;
@@ -30,6 +44,8 @@ int main(void){
 	//uart_send_byte('3');
 	display_set_bytes(1,2,3,4);
 	leds_random_line();
+	display_init_timer();
+	sei();
 
 	while(1) {
 		leds_move_column();

@@ -2,7 +2,7 @@ lab7.o: ../lab7.c c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/iom8515.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/iom8535.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/portpins.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/common.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/version.h \
@@ -10,7 +10,8 @@ lab7.o: ../lab7.c c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
-  ../test1.h ../keyboard.h ../uart.h ../display.h
+  ../test1.h ../keyboard.h ../uart.h ../display.h \
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
 
@@ -20,7 +21,7 @@ c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/iom8515.h:
+c:/winavr-20100110/lib/gcc/../../avr/include/avr/iom8535.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/portpins.h:
 
@@ -43,3 +44,5 @@ c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 ../uart.h:
 
 ../display.h:
+
+c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
