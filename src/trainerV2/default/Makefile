@@ -15,7 +15,7 @@ COMMON = -mmcu=$(MCU)
 
 ## Compile options common for all C compilation units.
 CFLAGS = $(COMMON)
-CFLAGS += -Wall -gdwarf-2 -std=gnu99       -DF_CPU=4000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
+CFLAGS += -Wall -gdwarf-2 -std=gnu99         -DF_CPU=1000000UL -Os -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -MD -MP -MT $(*F).o -MF dep/$(@F).d 
 
 ## Assembly specific flags
@@ -40,7 +40,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 INCLUDES = -I"C:\Users\Professional\Desktop\BmstuMkCourseWork\src\trainerV2\..\..\..\..\..\..\..\WinAVR-20100110" 
 
 ## Objects that must be built in order to link
-OBJECTS = main.o test1.o keyboard.o uart.o display.o leds.o buzzer.o 
+OBJECTS = main.o keyboard.o uart.o display.o leds.o buzzer.o timer1.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -48,9 +48,6 @@ LINKONLYOBJECTS =
 ## Build
 all: $(TARGET) lab7.hex lab7.eep lab7.lss## Compile
 main.o: ../main.c
-	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
-
-test1.o: ../test1.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 keyboard.o: ../keyboard.c
@@ -66,6 +63,9 @@ leds.o: ../leds.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 buzzer.o: ../buzzer.c
+	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
+
+timer1.o: ../timer1.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link

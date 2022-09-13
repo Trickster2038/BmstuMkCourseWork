@@ -1,4 +1,5 @@
-test1.o: ../test1.c c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
+timer1.o: ../timer1.c \
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/sfr_defs.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/inttypes.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/stdint.h \

@@ -28,9 +28,7 @@ void display_flash_once(){
 	display_off();
 }
 
-void display_init_timer(){
-	TCNT1=0x00; // ticks
-	TCCR1B |= (1<<CS10); // K = 0
-	OCR1A = (unsigned int) (F_CPU / 60); // compare num
-	TIMSK |= (1<<OCIE1A); // launch timer	
+void display_init_timer0(){
+	TCCR0 = (1<<CS01); // K = 8
+	TIMSK |= (1<<TOIE0); // allow interrupt
 }

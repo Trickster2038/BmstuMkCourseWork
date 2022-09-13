@@ -10,9 +10,8 @@ main.o: ../main.c c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/avr/lock.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h \
   c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h \
-  ../test1.h ../keyboard.h ../uart.h ../display.h \
-  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h \
-  ../buzzer.h
+  c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h ../leds.h \
+  ../keyboard.h ../uart.h ../display.h ../buzzer.h ../timer1.h
 
 c:/winavr-20100110/lib/gcc/../../avr/include/avr/io.h:
 
@@ -38,7 +37,9 @@ c:/winavr-20100110/lib/gcc/../../avr/include/util/delay.h:
 
 c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 
-../test1.h:
+c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
+
+../leds.h:
 
 ../keyboard.h:
 
@@ -46,6 +47,6 @@ c:/winavr-20100110/lib/gcc/../../avr/include/util/delay_basic.h:
 
 ../display.h:
 
-c:/winavr-20100110/lib/gcc/../../avr/include/avr/interrupt.h:
-
 ../buzzer.h:
+
+../timer1.h:
