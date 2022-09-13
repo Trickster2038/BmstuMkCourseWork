@@ -2,7 +2,7 @@
 #define BAUD 9600
 #include <util/setbaud.h>
 
-void uart_init(void) {
+void uart_init() {
     UBRRH = UBRRH_VALUE;
     UBRRL = UBRRL_VALUE;
 

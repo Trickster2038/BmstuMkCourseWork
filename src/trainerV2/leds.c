@@ -6,8 +6,8 @@ char column = 0;
 char direction = 1; // forward
 
 char leds_random_line(){
-	line = rand() % 4;
-	return line;
+	line = rand() % 8;
+	return (line + 1);
 }
 
 void leds_move_column(){

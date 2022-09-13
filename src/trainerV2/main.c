@@ -12,8 +12,17 @@
 #include "timer1.h"
 
 char hh = 0;
+int debug_activate_ms;
 
+char key = 0;
+char led_line = 0;
+char active = 0;
 int timer_ms = 0;
+int delay_amount = 100;
+
+/*
+	key9 = start
+*/
 
 ISR (TIMER1_COMPA_vect)
 {
@@ -37,7 +46,36 @@ void init_main(void){
 	sei();
 }
 
-int main(void){
+int main(){
+	init_main();
+	display_set_bytes(0, 0, 0, 0);
+	led_line = leds_random_line();
+
+	while(1){
+		key = keyboard_get_state();
+		if(active == 1){
+			leds_move_column();
+			leds_update();
+			if((key != 0) && (key <= 8)){
+				if(key == led_line){
+					display_set_int(timer_ms);
+					timer_ms = 0;
+					led_line = leds_random_line();
+				}
+			}
+			_delay_ms(delay_amount);	
+		} else {
+			if(key == 9){
+				//debug_activate_ms = timer_ms;
+				active = 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
+void main_test(){
 	init_main();
 	//uart_init();
 	//uart_send_byte('h');

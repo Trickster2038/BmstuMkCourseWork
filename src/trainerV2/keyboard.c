@@ -11,8 +11,10 @@ char inputState[4]={0x01,0x02,0x04,0x08};
 	returns (line<<4 | coluumn) 
 	values in [0;3]
 	no idea why they swap
+	j - line
+	i - column
 */
-char keyboard_get_state(void){
+char keyboard_get_state(){
  	for(i=0; i<4; i++)
     { 
        PORTA=portState[i];
@@ -20,9 +22,9 @@ char keyboard_get_state(void){
        { 
           if(((PINA&inputState[j])==0))
           {
-		  	return (char) ((j<<4) | i);
+		  	return (char) (j*4 + i + 1);
           }
        }                          
     }
-	return (char) (0xFF);  
+	return (char) (0x00);  
 }

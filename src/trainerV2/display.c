@@ -2,6 +2,7 @@
 #include <util/delay.h>
 
 char c1, c2, c3, c4;
+char d1, d2, d3, d4;
 char display_temp;
 
 void display_set_bytes(char t1, char t2,
@@ -10,6 +11,14 @@ void display_set_bytes(char t1, char t2,
 	c2 = 0x20 | (0x0F & t2);
 	c3 = 0x40 | (0x0F & t3);
 	c4 = 0x80 | (0x0F & t4);
+}
+
+void display_set_int(int target){
+	d4 = target % 10;
+	d3 = (target / 10) % 10;
+	d2 = (target / 100) % 10;
+	d1 = (target / 1000) % 10;
+	display_set_bytes(d1, d2, d3, d4);
 }
 
 void display_off(){
