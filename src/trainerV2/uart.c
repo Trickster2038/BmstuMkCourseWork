@@ -2,6 +2,9 @@
 #define BAUD 9600
 #include <util/setbaud.h>
 
+int divider;
+char cnt;
+
 void uart_init() {
     UBRRH = UBRRH_VALUE;
     UBRRL = UBRRL_VALUE;
@@ -19,4 +22,13 @@ void uart_init() {
 void uart_send_byte(char c) {
    loop_until_bit_is_set(UCSRA, UDRE); /* Wait until data register empty. */
    UDR = c;
+}
+
+void uart_send_int(int data) {
+	divider = 1000;
+	for(cnt=0; cnt<4; cnt++){
+		uart_send_byte(((data / divider) % 10) + '0');
+		divider /= 10;
+	}
+	uart_send_byte(' ');
 }

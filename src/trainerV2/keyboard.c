@@ -22,9 +22,9 @@ char keyboard_get_state(){
        { 
           if(((PINA&inputState[j])==0))
           {
-		  	return (char) (j*4 + i + 1);
+		  	return (j*4 + i + 1);
           }
        }                          
     }
-	return (char) (0x00);  
+	return 0;  
 }
