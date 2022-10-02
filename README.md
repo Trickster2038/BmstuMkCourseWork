@@ -12,4 +12,4 @@
 
 ## Аппаратное обеспечение
 
-![](./media/trainerV4.PNG)
+![](./media/trainerV5_1.PNG)
