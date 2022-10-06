@@ -1,6 +1,6 @@
 #include <avr/io.h>
 
-int i=0,j=0;
+char i=0,j=0;
 char portState[4]= {0xEF,0xDF,0xBF,0x7F};
 char inputState[4]={0x01,0x02,0x04,0x08};
 
@@ -14,10 +14,10 @@ char inputState[4]={0x01,0x02,0x04,0x08};
 char keyboard_get_state(){
  	for(i=0; i<4; i++)
     { 
-       PORTA=portState[i];
+       PORTA=portState[(int) i];
        for(j=0; j<4; j++)
        { 
-          if(((PINA&inputState[j])==0))
+          if(((PINA&inputState[(int) j])==0))
           {
 		  	return (j*4 + i + 1);
           }

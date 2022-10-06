@@ -4,6 +4,7 @@
 
 int divider;
 char cnt;
+char i;
 
 void uart_init() {
     UBRRH = UBRRH_VALUE;
@@ -37,4 +38,19 @@ void uart_send_int(int data) {
 		divider /= 10;
 	}
 	uart_send_byte(' ');
+}
+
+void uart_send_data(int* res_array, char range, int average) {
+	for(i=0; i<range; i++){
+		uart_send_byte(i+1+'0');
+		uart_send_byte(':');
+		uart_send_int(res_array[(int) i]);
+		uart_send_byte('\n');
+	}
+	uart_send_byte('A');
+	uart_send_byte('V');
+	uart_send_byte('G');
+	uart_send_byte(':');
+	uart_send_int(average);
+	uart_send_byte('\n');
 }

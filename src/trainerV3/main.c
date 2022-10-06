@@ -13,19 +13,17 @@
 
 #define BUZZER_DELAY 50
 #define DEFAULT_DELAY 200
-#define MIN_DELAY 50
-#define MAX_DELAY 300
+#define MIN_DELAY 100
+#define MAX_DELAY 500
 #define DELAY_STEP 10
-#define OTHER_KEYS_DELAY 500
-#define BEFORE_RESET_CYCLES 3
+#define OTHER_KEYS_DELAY 300
 
 #define K 3
 
 char hh = 0;
 int debug_activate_ms;
 
-char lock_reset = 1;
-char lock_reset_cnt = 0;
+char lock_reset = 0;
 char display_on = 0;
 char key = 0;
 char led_line = 0;
@@ -38,6 +36,8 @@ int delay_amount = DEFAULT_DELAY;
 char tries_counter = 0;
 int sum_timer_ms = 0;
 
+int results[K];
+
 ISR (TIMER1_COMPA_vect)
 {
   timer_ms++;
@@ -48,8 +48,6 @@ ISR (TIMER1_COMPA_vect)
 ISR (TIMER0_OVF_vect){
 	if(display_on == 1){
 		display_flash_once();
-	} else {
-		display_off();
 	}
 }
 
@@ -67,17 +65,12 @@ void init_main(void){
 
 int main(){
 	init_main();
+	display_off();
 	led_line = leds_random_line();
 	display_set_bytes(0, 0, 0, 0);
 
 	while(1){
 		key = keyboard_get_state();
-
-		if(lock_reset_cnt < BEFORE_RESET_CYCLES){
-			lock_reset_cnt++;
-		} else {
-			lock_reset = 0;
-		}
 
 		if(active == 1){
 			leds_move_column();
@@ -87,6 +80,7 @@ int main(){
 				if(key == led_line){
 					timer_ms_buff = timer_ms; // not really necessary
 					display_set_int(timer_ms_buff);
+					results[(int) tries_counter] = timer_ms_buff;
 					sum_timer_ms += timer_ms_buff;
 					tries_counter++;
 					timer_ms = 0;
@@ -97,14 +91,14 @@ int main(){
 				}
 			} 
 
-			if((key == 9) && (lock_reset == 0)){
-				lock_reset_cnt = 0;
+			if(key == 9){
 				display_on = 0;
+				display_off();
 				active = 0;
-				lock_reset = 1;
 
 				display_set_bytes(0, 0, 0, 0); // discard display buffer
 				leds_off();
+				_delay_ms(OTHER_KEYS_DELAY);
 			} 
 
 			if((key == 10) && (delay_amount > MIN_DELAY)){
@@ -124,7 +118,6 @@ int main(){
 			_delay_ms(delay_amount);	
 		} else {
 			if((key == 9) && (lock_reset == 0)){
-				lock_reset_cnt = 0;
 				display_on = 1;
 				active = 1;
 
@@ -132,13 +125,14 @@ int main(){
 				sum_timer_ms = 0;
 				timer_ms = 0;
 				led_line = leds_random_line(); // refresh line after reset
-				lock_reset = 1; // prevent double click, delay works strange
 			} 
 
 			if(key == 12){
-				uart_send_int(sum_timer_ms / K);
-				_delay_ms(OTHER_KEYS_DELAY);
+				if(tries_counter == K){
+					uart_send_data(results, K, sum_timer_ms / K);
+				}
 			}
+			_delay_ms(OTHER_KEYS_DELAY);
 		}
 	}
 
