@@ -126,11 +126,10 @@ int main(){
 				led_line = leds_random_line(); // refresh line after reset
 			} 
 
-			if(key == 12){
-				if(tries_counter == K){
+			if((key == 12)&&(tries_counter == K)){
 					uart_send_data(results, K, sum_timer_ms / K);
 				}
-			}
+
 			_delay_ms(OTHER_KEYS_DELAY);
 		}
 	}
