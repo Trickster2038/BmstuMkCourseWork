@@ -60,13 +60,14 @@ void init_main(void){
 	display_init_timer0();
 	uart_init();
 	sei();
+
+	display_off();
+	led_line = leds_random_line();
+	display_set_long(0);
 }
 
 int main(){
 	init_main();
-	display_off();
-	led_line = leds_random_line();
-	display_set_long(0);
 
 	while(1){
 		key = keyboard_get_state();

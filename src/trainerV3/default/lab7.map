@@ -259,7 +259,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr4\libgcc.a
  .text          0x00000062      0x366 main.o
                 0x000000d6                init_main
                 0x00000062                __vector_6
-                0x000000f0                main
+                0x00000102                main
                 0x0000037a                __vector_9
  .text          0x000003c8       0x62 keyboard.o
                 0x000003c8                keyboard_get_state

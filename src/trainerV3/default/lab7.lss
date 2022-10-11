@@ -91,7 +91,7 @@ Disassembly of section .text:
       56:	a0 3b       	cpi	r26, 0xB0	; 176
       58:	b1 07       	cpc	r27, r17
       5a:	e1 f7       	brne	.-8      	; 0x54 <.do_clear_bss_loop>
-      5c:	49 d0       	rcall	.+146    	; 0xf0 <main>
+      5c:	52 d0       	rcall	.+164    	; 0x102 <main>
       5e:	a0 ca       	rjmp	.-2752   	; 0xfffff5a0 <__eeprom_end+0xff7ef5a0>
 
 00000060 <__bad_interrupt>:
@@ -178,36 +178,37 @@ void init_main(void){
       ea:	9f d1       	rcall	.+830    	; 0x42a <uart_init>
 	sei();
       ec:	78 94       	sei
-}
-      ee:	08 95       	ret
 
-000000f0 <main>:
+	display_off();
+      ee:	c4 d2       	rcall	.+1416   	; 0x678 <display_off>
+	led_line = leds_random_line();
+      f0:	05 d3       	rcall	.+1546   	; 0x6fc <leds_random_line>
+      f2:	80 93 7b 01 	sts	0x017B, r24
+	display_set_long(0);
+      f6:	60 e0       	ldi	r22, 0x00	; 0
+      f8:	70 e0       	ldi	r23, 0x00	; 0
+      fa:	80 e0       	ldi	r24, 0x00	; 0
+      fc:	90 e0       	ldi	r25, 0x00	; 0
+      fe:	5b d2       	rcall	.+1206   	; 0x5b6 <display_set_long>
+}
+     100:	08 95       	ret
+
+00000102 <main>:
 
 int main(){
-      f0:	9f 92       	push	r9
-      f2:	af 92       	push	r10
-      f4:	bf 92       	push	r11
-      f6:	cf 92       	push	r12
-      f8:	df 92       	push	r13
-      fa:	ef 92       	push	r14
-      fc:	ff 92       	push	r15
-      fe:	0f 93       	push	r16
-     100:	1f 93       	push	r17
-     102:	cf 93       	push	r28
-     104:	df 93       	push	r29
+     102:	9f 92       	push	r9
+     104:	af 92       	push	r10
+     106:	bf 92       	push	r11
+     108:	cf 92       	push	r12
+     10a:	df 92       	push	r13
+     10c:	ef 92       	push	r14
+     10e:	ff 92       	push	r15
+     110:	0f 93       	push	r16
+     112:	1f 93       	push	r17
+     114:	cf 93       	push	r28
+     116:	df 93       	push	r29
 	init_main();
-     106:	e7 df       	rcall	.-50     	; 0xd6 <init_main>
-	display_off();
-     108:	b7 d2       	rcall	.+1390   	; 0x678 <display_off>
-	led_line = leds_random_line();
-     10a:	f8 d2       	rcall	.+1520   	; 0x6fc <leds_random_line>
-     10c:	80 93 7b 01 	sts	0x017B, r24
-	display_set_long(0);
-     110:	60 e0       	ldi	r22, 0x00	; 0
-     112:	70 e0       	ldi	r23, 0x00	; 0
-     114:	80 e0       	ldi	r24, 0x00	; 0
-     116:	90 e0       	ldi	r25, 0x00	; 0
-     118:	4e d2       	rcall	.+1180   	; 0x5b6 <display_set_long>
+     118:	de df       	rcall	.-68     	; 0xd6 <init_main>
     milliseconds can be achieved.
  */
 void
@@ -224,9 +225,9 @@ _delay_loop_2(uint16_t __count)
 				display_on = 1;
      11e:	99 24       	eor	r9, r9
      120:	93 94       	inc	r9
-	display_off();
-	led_line = leds_random_line();
-	display_set_long(0);
+
+int main(){
+	init_main();
 
 	while(1){
 		key = keyboard_get_state();
@@ -237,7 +238,7 @@ _delay_loop_2(uint16_t __count)
 		if(active == 1){
      12a:	80 91 7c 01 	lds	r24, 0x017C
      12e:	81 30       	cpi	r24, 0x01	; 1
-     130:	09 f0       	breq	.+2      	; 0x134 <main+0x44>
+     130:	09 f0       	breq	.+2      	; 0x134 <main+0x32>
      132:	de c0       	rjmp	.+444    	; 0x2f0 <__stack+0x91>
 			leds_move_column();
      134:	bd d2       	rcall	.+1402   	; 0x6b0 <leds_move_column>
@@ -249,13 +250,13 @@ _delay_loop_2(uint16_t __count)
      13c:	89 2f       	mov	r24, r25
      13e:	81 50       	subi	r24, 0x01	; 1
      140:	88 30       	cpi	r24, 0x08	; 8
-     142:	08 f0       	brcs	.+2      	; 0x146 <main+0x56>
-     144:	53 c0       	rjmp	.+166    	; 0x1ec <main+0xfc>
+     142:	08 f0       	brcs	.+2      	; 0x146 <main+0x44>
+     144:	53 c0       	rjmp	.+166    	; 0x1ec <main+0xea>
 				if(key == led_line){
      146:	80 91 7b 01 	lds	r24, 0x017B
      14a:	98 17       	cp	r25, r24
-     14c:	09 f0       	breq	.+2      	; 0x150 <main+0x60>
-     14e:	4b c0       	rjmp	.+150    	; 0x1e6 <main+0xf6>
+     14c:	09 f0       	breq	.+2      	; 0x150 <main+0x4e>
+     14e:	4b c0       	rjmp	.+150    	; 0x1e6 <main+0xe4>
 					timer_ms_buff = timer_ms; // not really necessary
      150:	60 91 7d 01 	lds	r22, 0x017D
      154:	70 91 7e 01 	lds	r23, 0x017E
@@ -311,7 +312,7 @@ _delay_loop_2(uint16_t __count)
      1de:	80 93 7b 01 	sts	0x017B, r24
 					leds_update(); // why necessary here?
      1e2:	7f d2       	rcall	.+1278   	; 0x6e2 <leds_update>
-     1e4:	03 c0       	rjmp	.+6      	; 0x1ec <main+0xfc>
+     1e4:	03 c0       	rjmp	.+6      	; 0x1ec <main+0xea>
 				} else {
 					buzzer_beep(BUZZER_DELAY);
      1e6:	82 e3       	ldi	r24, 0x32	; 50
@@ -323,7 +324,7 @@ _delay_loop_2(uint16_t __count)
 			if(key == 9){
      1ec:	80 91 7a 01 	lds	r24, 0x017A
      1f0:	89 30       	cpi	r24, 0x09	; 9
-     1f2:	69 f4       	brne	.+26     	; 0x20e <main+0x11e>
+     1f2:	69 f4       	brne	.+26     	; 0x20e <main+0x10c>
 				display_on = 0;
      1f4:	10 92 79 01 	sts	0x0179, r1
 				display_off();
@@ -337,7 +338,7 @@ _delay_loop_2(uint16_t __count)
      202:	9b e0       	ldi	r25, 0x0B	; 11
      204:	fe 01       	movw	r30, r28
      206:	31 97       	sbiw	r30, 0x01	; 1
-     208:	f1 f7       	brne	.-4      	; 0x206 <main+0x116>
+     208:	f1 f7       	brne	.-4      	; 0x206 <main+0x104>
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
 		{
@@ -351,33 +352,33 @@ _delay_loop_2(uint16_t __count)
 		//	__ticks = requested delay in 1/10 ms
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
-     20c:	d9 f7       	brne	.-10     	; 0x204 <main+0x114>
+     20c:	d9 f7       	brne	.-10     	; 0x204 <main+0x102>
 				_delay_ms(OTHER_KEYS_DELAY);
 			} 
 
 			if((key == 10) && (delay_amount > MIN_DELAY)){
      20e:	80 91 7a 01 	lds	r24, 0x017A
      212:	8a 30       	cpi	r24, 0x0A	; 10
-     214:	49 f4       	brne	.+18     	; 0x228 <main+0x138>
+     214:	49 f4       	brne	.+18     	; 0x228 <main+0x126>
      216:	80 91 60 00 	lds	r24, 0x0060
      21a:	90 91 61 00 	lds	r25, 0x0061
      21e:	85 36       	cpi	r24, 0x65	; 101
      220:	91 05       	cpc	r25, r1
-     222:	8c f0       	brlt	.+34     	; 0x246 <main+0x156>
+     222:	8c f0       	brlt	.+34     	; 0x246 <main+0x144>
 				delay_amount -= DELAY_STEP;
      224:	0a 97       	sbiw	r24, 0x0a	; 10
-     226:	0b c0       	rjmp	.+22     	; 0x23e <main+0x14e>
+     226:	0b c0       	rjmp	.+22     	; 0x23e <main+0x13c>
 			}
 
 			if((key == 11) && (delay_amount < MAX_DELAY)){
      228:	8b 30       	cpi	r24, 0x0B	; 11
-     22a:	69 f4       	brne	.+26     	; 0x246 <main+0x156>
+     22a:	69 f4       	brne	.+26     	; 0x246 <main+0x144>
      22c:	80 91 60 00 	lds	r24, 0x0060
      230:	90 91 61 00 	lds	r25, 0x0061
      234:	21 e0       	ldi	r18, 0x01	; 1
      236:	84 3f       	cpi	r24, 0xF4	; 244
      238:	92 07       	cpc	r25, r18
-     23a:	2c f4       	brge	.+10     	; 0x246 <main+0x156>
+     23a:	2c f4       	brge	.+10     	; 0x246 <main+0x144>
 				delay_amount += DELAY_STEP;
      23c:	0a 96       	adiw	r24, 0x0a	; 10
      23e:	90 93 61 00 	sts	0x0061, r25
@@ -483,7 +484,7 @@ _delay_ms(double __ms)
      2da:	61 15       	cp	r22, r1
      2dc:	71 05       	cpc	r23, r1
      2de:	c1 f7       	brne	.-16     	; 0x2d0 <__stack+0x71>
-     2e0:	20 cf       	rjmp	.-448    	; 0x122 <main+0x32>
+     2e0:	20 cf       	rjmp	.-448    	; 0x122 <main+0x20>
 			__ticks --;
 		}
 		return;
@@ -496,7 +497,7 @@ _delay_ms(double __ms)
      2e8:	cb 01       	movw	r24, r22
      2ea:	01 97       	sbiw	r24, 0x01	; 1
      2ec:	f1 f7       	brne	.-4      	; 0x2ea <__stack+0x8b>
-     2ee:	19 cf       	rjmp	.-462    	; 0x122 <main+0x32>
+     2ee:	19 cf       	rjmp	.-462    	; 0x122 <main+0x20>
 		} else {
 			if((key == 9) && (lock_reset == 0)){
      2f0:	99 30       	cpi	r25, 0x09	; 9
@@ -573,7 +574,7 @@ _delay_ms(double __ms)
 		__ticks = (uint16_t) (__ms * 10.0);
 		while(__ticks)
      376:	d9 f7       	brne	.-10     	; 0x36e <__stack+0x10f>
-     378:	d4 ce       	rjmp	.-600    	; 0x122 <main+0x32>
+     378:	d4 ce       	rjmp	.-600    	; 0x122 <main+0x20>
 
 0000037a <__vector_9>:
   timer_ms++;
