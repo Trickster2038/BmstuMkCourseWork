@@ -22,7 +22,6 @@
 
 long debug_activate_ms;
 
-char lock_reset = 0;
 char display_on = 0;
 char key = 0;
 char led_line = 0;
@@ -116,7 +115,7 @@ int main(){
 
 			_delay_ms(delay_amount);	
 		} else {
-			if((key == 9) && (lock_reset == 0)){
+			if(key == 9){
 				display_set_long(0);
 				display_on = 1;
 				active = 1;
