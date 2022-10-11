@@ -257,7 +257,7 @@ int main(){
      14a:	98 17       	cp	r25, r24
      14c:	09 f0       	breq	.+2      	; 0x150 <main+0x4e>
      14e:	4b c0       	rjmp	.+150    	; 0x1e6 <main+0xe4>
-					timer_ms_buff = timer_ms; // not really necessary
+					timer_ms_buff = timer_ms; 
      150:	60 91 7c 01 	lds	r22, 0x017C
      154:	70 91 7d 01 	lds	r23, 0x017D
      158:	80 91 7e 01 	lds	r24, 0x017E
@@ -310,7 +310,7 @@ int main(){
 					led_line = leds_random_line();
      1dc:	8b d2       	rcall	.+1302   	; 0x6f4 <leds_random_line>
      1de:	80 93 7a 01 	sts	0x017A, r24
-					leds_update(); // why necessary here?
+					leds_update(); 
      1e2:	7b d2       	rcall	.+1270   	; 0x6da <leds_update>
      1e4:	03 c0       	rjmp	.+6      	; 0x1ec <main+0xea>
 				} else {

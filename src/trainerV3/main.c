@@ -77,14 +77,14 @@ int main(){
 
 			if((key != 0) && (key <= 8)){
 				if(key == led_line){
-					timer_ms_buff = timer_ms; // not really necessary
+					timer_ms_buff = timer_ms; 
 					display_set_long(timer_ms_buff);
 					results[(int) tries_counter] = timer_ms_buff;
 					sum_timer_ms += timer_ms_buff;
 					tries_counter++;
 					timer_ms = 0;
 					led_line = leds_random_line();
-					leds_update(); // why necessary here?
+					leds_update(); 
 				} else {
 					buzzer_beep(BUZZER_DELAY);
 				}
