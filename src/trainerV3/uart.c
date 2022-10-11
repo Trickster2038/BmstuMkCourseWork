@@ -2,7 +2,7 @@
 #define BAUD 9600
 #include <util/setbaud.h>
 
-int divider;
+long divider;
 char cnt;
 char i;
 
@@ -25,32 +25,29 @@ void uart_send_byte(char c) {
    UDR = c;
 }
 
-void uart_send_int(int data) {
-	divider = 1;
-	while((divider * 10) < data){
+void uart_send_long(long data) {
+	divider = 1; 
+	while((divider*10) < data){
 		divider *= 10;
-	}
-	if(divider < 1000){
-		divider = 1000;
 	}
 	while(divider > 0){
 		uart_send_byte(((data / divider) % 10) + '0');
-		divider /= 10;
+		divider /= 10;	
 	}
 	uart_send_byte(' ');
 }
 
-void uart_send_data(int* res_array, char range, int average) {
+void uart_send_data(long* res_array, char range, long average) {
 	for(i=0; i<range; i++){
 		uart_send_byte(i+1+'0');
 		uart_send_byte(':');
-		uart_send_int(res_array[(int) i]);
+		uart_send_long(res_array[(int) i]);
 		uart_send_byte('\n');
 	}
 	uart_send_byte('A');
 	uart_send_byte('V');
 	uart_send_byte('G');
 	uart_send_byte(':');
-	uart_send_int(average);
+	uart_send_long(average);
 	uart_send_byte('\n');
 }

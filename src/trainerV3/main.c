@@ -20,23 +20,22 @@
 
 #define K 3
 
-char hh = 0;
-int debug_activate_ms;
+long debug_activate_ms;
 
 char lock_reset = 0;
 char display_on = 0;
 char key = 0;
 char led_line = 0;
 char active = 0;
-int timer_ms = 0;
-int timer_ms_buff;
-int timer_control; // for debug
+long timer_ms = 0;
+long timer_ms_buff;
+long timer_control; // for debug
 int delay_amount = DEFAULT_DELAY;
 
 char tries_counter = 0;
-int sum_timer_ms = 0;
+long sum_timer_ms = 0;
 
-int results[K];
+long results[K];
 
 ISR (TIMER1_COMPA_vect)
 {
@@ -67,7 +66,7 @@ int main(){
 	init_main();
 	display_off();
 	led_line = leds_random_line();
-	display_set_bytes(0, 0, 0, 0);
+	display_set_long(0);
 
 	while(1){
 		key = keyboard_get_state();
@@ -79,7 +78,7 @@ int main(){
 			if((key != 0) && (key <= 8)){
 				if(key == led_line){
 					timer_ms_buff = timer_ms; // not really necessary
-					display_set_int(timer_ms_buff);
+					display_set_long(timer_ms_buff);
 					results[(int) tries_counter] = timer_ms_buff;
 					sum_timer_ms += timer_ms_buff;
 					tries_counter++;
@@ -96,7 +95,6 @@ int main(){
 				display_off();
 				active = 0;
 
-				display_set_bytes(0, 0, 0, 0); // discard display buffer
 				leds_off();
 				_delay_ms(OTHER_KEYS_DELAY);
 			} 
@@ -110,7 +108,7 @@ int main(){
 			}
 			
 			if(tries_counter == K){
-				display_set_int(sum_timer_ms / K);
+				display_set_long(sum_timer_ms / K);
 				leds_off();
 				active = 0;
 			}			
@@ -118,6 +116,7 @@ int main(){
 			_delay_ms(delay_amount);	
 		} else {
 			if((key == 9) && (lock_reset == 0)){
+				display_set_long(0);
 				display_on = 1;
 				active = 1;
 

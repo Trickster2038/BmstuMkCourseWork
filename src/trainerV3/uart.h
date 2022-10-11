@@ -3,7 +3,7 @@
 
 void uart_init();
 void uart_send_byte(char target);
-void uart_send_int(int data);
-void uart_send_data(int* res_array, char range, int average);
+void uart_send_long(int data);
+void uart_send_data(long* res_array, char range, long average);
 
 #endif

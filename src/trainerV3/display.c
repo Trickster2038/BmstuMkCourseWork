@@ -3,7 +3,6 @@
 
 char c[4];
 char d1, d2, d3, d4;
-char display_temp;
 char display_pos = 0;
 
 void display_set_bytes(char t1, char t2,
@@ -14,7 +13,7 @@ void display_set_bytes(char t1, char t2,
 	c[3] = ~0x8F | (0x0F & t4);
 }
 
-void display_set_int(int target){
+void display_set_long(long target){
 	if(target < 10000){
 		d4 = target % 10;
 		d3 = (target / 10) % 10;
