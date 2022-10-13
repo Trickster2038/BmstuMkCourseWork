@@ -16,7 +16,7 @@
 #define MIN_DELAY 100
 #define MAX_DELAY 500
 #define DELAY_STEP 10
-#define KEYS_DELAY 300
+#define KEYS_DELAY 250
 
 #define K 3
 
@@ -114,8 +114,8 @@ int main(){
 				active = 0;
 			}			
 
-			_delay_ms(KEYS_DELAY); 	
 		} else {
+
 			if(key == 9){
 				display_set_long(0);
 				display_on = 1;
@@ -130,9 +130,9 @@ int main(){
 			if((key == 12)&&(tries_counter == K)){
 					uart_send_data(results, K, sum_timer_ms / K);
 				}
-
-			_delay_ms(KEYS_DELAY);
 		}
+
+		_delay_ms(KEYS_DELAY);
 	}
 
 	return 0;
