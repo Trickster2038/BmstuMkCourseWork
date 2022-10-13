@@ -16,7 +16,7 @@
 #define MIN_DELAY 100
 #define MAX_DELAY 500
 #define DELAY_STEP 10
-#define OTHER_KEYS_DELAY 300
+#define KEYS_DELAY 300
 
 #define K 3
 
@@ -39,8 +39,12 @@ long results[K];
 ISR (TIMER1_COMPA_vect)
 {
   timer_ms++;
-  timer_control++; // for debug
+  if((active == 1) && (timer_ms % delay_amount == 0)){
+ 	leds_move_column();
+	leds_update();
+  }
   TCNT1=0; //clear ticks
+  timer_control++; // for debug
 }
 
 ISR (TIMER0_OVF_vect){
@@ -72,8 +76,6 @@ int main(){
 		key = keyboard_get_state();
 
 		if(active == 1){
-			leds_move_column();
-			leds_update();
 
 			if((key != 0) && (key <= 8)){
 				if(key == led_line){
@@ -96,7 +98,6 @@ int main(){
 				active = 0;
 
 				leds_off();
-				_delay_ms(OTHER_KEYS_DELAY);
 			} 
 
 			if((key == 10) && (delay_amount > MIN_DELAY)){
@@ -113,7 +114,7 @@ int main(){
 				active = 0;
 			}			
 
-			_delay_ms(delay_amount);	
+			_delay_ms(KEYS_DELAY); 	
 		} else {
 			if(key == 9){
 				display_set_long(0);
@@ -130,7 +131,7 @@ int main(){
 					uart_send_data(results, K, sum_timer_ms / K);
 				}
 
-			_delay_ms(OTHER_KEYS_DELAY);
+			_delay_ms(KEYS_DELAY);
 		}
 	}
 
