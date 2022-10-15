@@ -1365,7 +1365,7 @@ void timer1_init(){
 	TCNT1=0x00; // ticks
      766:	1d bc       	out	0x2d, r1	; 45
      768:	1c bc       	out	0x2c, r1	; 44
-	TCCR1B |= (1<<CS10); // K = 0
+	TCCR1B |= (1<<CS10); // K = 1
      76a:	8e b5       	in	r24, 0x2e	; 46
      76c:	81 60       	ori	r24, 0x01	; 1
      76e:	8e bd       	out	0x2e, r24	; 46
