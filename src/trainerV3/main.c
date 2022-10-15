@@ -16,7 +16,8 @@
 #define MIN_DELAY 100
 #define MAX_DELAY 500
 #define DELAY_STEP 10
-#define KEYS_DELAY 250
+#define KEYS_DELAY 500
+#define BYPASS_DELAY 10
 
 #define K 3
 
@@ -132,7 +133,11 @@ int main(){
 				}
 		}
 
-		_delay_ms(KEYS_DELAY);
+		if(key != 0){
+			_delay_ms(KEYS_DELAY);
+		} else {
+			_delay_ms(BYPASS_DELAY);
+		}
 	}
 
 	return 0;
