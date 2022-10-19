@@ -7,7 +7,11 @@ char direction = 1; // forward
 
 char leds_random_line(){
 	line = rand() % 8;
-	return (line + 1);
+	return line;
+}
+
+void leds_update(){
+	PORTC = 0x80 | (column << 3) | line;
 }
 
 void leds_move_column(){
@@ -26,10 +30,6 @@ void leds_move_column(){
 			column++;
 		}
 	}
-}
-
-void leds_update(){
-	PORTC = 0x80 | (column << 3) | line;
 }
 
 void leds_off(){

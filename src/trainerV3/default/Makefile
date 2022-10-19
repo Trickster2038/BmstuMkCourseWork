@@ -40,7 +40,7 @@ HEX_EEPROM_FLAGS += --change-section-lma .eeprom=0 --no-change-warnings
 INCLUDES = -I"C:\Users\Professional\Desktop\BmstuMkCourseWork\src\trainerV3\..\..\..\..\..\..\..\WinAVR-20100110" 
 
 ## Objects that must be built in order to link
-OBJECTS = main.o keyboard.o uart.o display.o leds.o buzzer.o timer1.o 
+OBJECTS = main.o keyboard.o uart.o display.o leds.o buzzer.o timers.o 
 
 ## Objects explicitly added by the user
 LINKONLYOBJECTS = 
@@ -65,7 +65,7 @@ leds.o: ../leds.c
 buzzer.o: ../buzzer.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
-timer1.o: ../timer1.c
+timers.o: ../timers.c
 	$(CC) $(INCLUDES) $(CFLAGS) -c  $<
 
 ##Link

@@ -9,7 +9,7 @@
 #include "uart.h"
 #include "display.h"
 #include "buzzer.h"
-#include "timer1.h"
+#include "timers.h"
 
 #define BUZZER_DELAY 50
 #define DEFAULT_DELAY 200
@@ -55,13 +55,13 @@ ISR (TIMER0_OVF_vect){
 }
 
 void init_main(void){
+	timer0_init();
 	timer1_init();
 	DDRA=0xF0;
 	PORTA=0x0F; // resistors on buttons
 	DDRC=0xFF; // PORTC - OUTPUT
 	DDRB=0xFF; // PORTB - OUTPUT
 	DDRD=0xFF; // PORTD - OUTPUT
-	display_init_timer0();
 	uart_init();
 	sei();
 
@@ -79,7 +79,7 @@ int main(){
 		if(active == 1){
 
 			if((key != 0) && (key <= 8)){
-				if(key == led_line){
+				if(key == (led_line + 1)){
 					timer_ms_buff = timer_ms; 
 					display_set_long(timer_ms_buff);
 					results[(int) tries_counter] = timer_ms_buff;
@@ -87,7 +87,6 @@ int main(){
 					tries_counter++;
 					timer_ms = 0;
 					led_line = leds_random_line();
-					leds_update(); 
 				} else {
 					buzzer_beep(BUZZER_DELAY);
 				}

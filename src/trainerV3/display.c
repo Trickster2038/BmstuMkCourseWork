@@ -36,9 +36,3 @@ void display_flash_once(){
 	}
 	PORTB = c[(int) display_pos];
 }
-
-void display_init_timer0(){
-	//TCCR0 = (1<<CS01) | (1 << CS00); // K = 64
-	TCCR0 = (1<<CS01); // K = 8
-	TIMSK |= (1<<TOIE0); // allow interrupt
-}
