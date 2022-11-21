@@ -3,7 +3,7 @@
 
 char line = 0;
 char column = 0;
-char direction = 1; // forward
+char direction = 1; // moving left-to-right
 
 char leds_random_line(){
 	line = rand() % 8;
@@ -11,7 +11,7 @@ char leds_random_line(){
 }
 
 void leds_update(){
-	PORTC = 0x80 | (column << 3) | line;
+	PORTC = 0x80 | (column << 3) | line; // 0x80 - enable decoder;
 }
 
 void leds_move_column(){

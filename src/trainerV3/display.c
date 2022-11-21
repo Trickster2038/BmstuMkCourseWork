@@ -7,6 +7,8 @@ char display_pos = 0;
 
 void display_set_bytes(char t1, char t2,
 	char t3, char t4){
+	// (0 bit at HIGH part for active digit) | 
+	// (binary-decimal digit at LOW part)
 	c[0] = ~0x1F | (0x0F & t1);
 	c[1] = ~0x2F | (0x0F & t2);
 	c[2] = ~0x4F | (0x0F & t3);
@@ -31,8 +33,5 @@ void display_off(){
 
 void display_flash_once(){
 	display_pos++;
-	if(display_pos > 3){
-		display_pos = display_pos % 4;
-	}
-	PORTB = c[(int) display_pos];
+	PORTB = c[(int) display_pos % 4];
 }

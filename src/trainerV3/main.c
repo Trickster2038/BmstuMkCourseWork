@@ -37,6 +37,8 @@ long sum_timer_ms = 0;
 
 long results[K];
 
+
+// counting delay and animating leds
 ISR (TIMER1_COMPA_vect)
 {
   timer_ms++;
@@ -48,6 +50,7 @@ ISR (TIMER1_COMPA_vect)
   timer_control++; // for debug
 }
 
+// displaying numbers
 ISR (TIMER0_OVF_vect){
 	if(display_on == 1){
 		display_flash_once();
@@ -76,8 +79,10 @@ int main(){
 	while(1){
 		key = keyboard_get_state();
 
+		// if challenge is in progress
 		if(active == 1){
 
+			// if key attaches to led line
 			if((key != 0) && (key <= 8)){
 				if(key == (led_line + 1)){
 					timer_ms_buff = timer_ms; 
@@ -92,6 +97,7 @@ int main(){
 				}
 			} 
 
+			// if "Reset" pressed
 			if(key == 9){
 				display_on = 0;
 				display_off();
@@ -99,15 +105,19 @@ int main(){
 
 				leds_off();
 			} 
-
+			
+			// if "faster" pressed
 			if((key == 10) && (delay_amount > MIN_DELAY)){
 				delay_amount -= DELAY_STEP;
 			}
 
+			// if "slower" pressed
 			if((key == 11) && (delay_amount < MAX_DELAY)){
 				delay_amount += DELAY_STEP;
 			}
-			
+
+
+			// if challenge finished			
 			if(tries_counter == K){
 				display_set_long(sum_timer_ms / K);
 				leds_off();
@@ -116,6 +126,7 @@ int main(){
 
 		} else {
 
+			// if "Reset" pressed
 			if(key == 9){
 				display_set_long(0);
 				display_on = 1;
@@ -127,15 +138,16 @@ int main(){
 				led_line = leds_random_line(); // refresh line after reset
 			} 
 
+			// if "UART" pressed && challenge finished
 			if((key == 12)&&(tries_counter == K)){
 					uart_send_data(results, K, sum_timer_ms / K);
 				}
 		}
 
 		if(key != 0){
-			_delay_ms(KEYS_DELAY);
+			_delay_ms(KEYS_DELAY); // prevents double-click
 		} else {
-			_delay_ms(BYPASS_DELAY);
+			_delay_ms(BYPASS_DELAY); // less delay time
 		}
 	}
 

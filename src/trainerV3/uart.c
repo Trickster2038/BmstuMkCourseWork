@@ -7,7 +7,7 @@ char cnt;
 char i;
 
 void uart_init() {
-    UBRRH = UBRRH_VALUE;
+    UBRRH = UBRRH_VALUE; // BAUD = f / (16*UBBR)
     UBRRL = UBRRL_VALUE;
 
 #if USE_2X
@@ -21,7 +21,7 @@ void uart_init() {
 }
 
 void uart_send_byte(char c) {
-   loop_until_bit_is_set(UCSRA, UDRE); // Wait until data register empty. */
+   loop_until_bit_is_set(UCSRA, UDRE); // Wait until data register empty
    UDR = c;
 }
 
