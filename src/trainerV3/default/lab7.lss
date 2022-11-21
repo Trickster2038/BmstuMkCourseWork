@@ -1364,11 +1364,12 @@ _delay_ms(double __ms)
      76a:	08 95       	ret
 
 0000076c <timer0_init>:
-#include <avr/io.h>
-
+	4_000_000 / (2^8 * K) = 24 * 4
+	(K < 163) => (K = 64)
+*/
 void timer0_init(){
 	// TCCR0 = (1<<CS01) | (1 << CS00); // K = 64
-	TCCR0 = (1<<CS01); // K = 8
+	TCCR0 = (1<<CS01); // K = 8 (simulation freezes)
      76c:	82 e0       	ldi	r24, 0x02	; 2
      76e:	83 bf       	out	0x33, r24	; 51
 	TIMSK |= (1<<TOIE0); // allow interrupt
@@ -1388,7 +1389,7 @@ void timer1_init(){
      77c:	8e b5       	in	r24, 0x2e	; 46
      77e:	81 60       	ori	r24, 0x01	; 1
      780:	8e bd       	out	0x2e, r24	; 46
-	OCR1A = (unsigned int) (F_CPU / 1000); // compare num (tick every 1ms)
+	OCR1A = (unsigned int) (F_CPU / 1000); // tick per 1ms = 1000 tick per second
      782:	80 ea       	ldi	r24, 0xA0	; 160
      784:	9f e0       	ldi	r25, 0x0F	; 15
      786:	9b bd       	out	0x2b, r25	; 43
